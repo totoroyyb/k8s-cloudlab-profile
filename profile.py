@@ -80,12 +80,8 @@ pc.defineParameter("sameSwitch",  "No Interswitch Links", portal.ParameterType.B
 params = pc.bindParameters()
 
 # Check parameter validity.
-# if params.nodeCount < 1:
-#     pc.reportError(portal.ParameterError("You must choose at least 1 node.", ["nodeCount"]))
-
-if params.tempFileSystemSize < 0 or params.tempFileSystemSize > 200:
-    pc.reportError(portal.ParameterError("Please specify a size greater then zero and " +
-                                         "less then 200GB", ["tempFileSystemSize"]))
+if params.nodeCount < 1:
+    pc.reportError(portal.ParameterError("You must choose at least 1 node.", ["nodeCount"]))
 
 if params.phystype != "":
     tokens = params.phystype.split(",")
