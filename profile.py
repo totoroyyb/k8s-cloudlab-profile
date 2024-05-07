@@ -148,15 +148,45 @@ for i in range(params.nodeCount):
     # Optional hardware type.
     if params.phystype != "":
         node.hardware_type = params.phystype
+
+    ### run setup scripts
+    # install mount point && generate ssh keys
+    node.addService(pg.Execute(shell="bash",
+        command="/local/repository/ssh.sh"))
+    node.addService(pg.Execute(shell="bash",
+        command="/local/repository/mount.sh"))
+
+    # dependencies installation
+    node.addService(pg.Execute(shell="bash",
+        command="/local/repository/install-dependencies.sh"))
+
+    if i == 0:
+        ''' Install the minikube for the main controller server (default to the first node)
+        '''
+        # docker installation
+        node.addService(pg.Execute(shell="bash",
+            command="/local/repository/install-kubectl.sh"))
+
+        # docker installation
+        node.addService(pg.Execute(shell="bash",
+            command="/local/repository/install-docker.sh"))
+
+        # minikube installation
+        node.addService(pg.Execute(shell="bash",
+            command="/local/repository/install-minikube.sh"))
+
+    # increase number of open file descriptors
+    node.addService(pg.Execute(shell="bash",
+        command="/local/repository/ulimit.sh"))
     
     # Optional Blockstore
-    if params.tempFileSystemSize > 0 or params.tempFileSystemMax:
-        bs = node.Blockstore(name + "-bs", params.tempFileSystemMount)
-        if params.tempFileSystemMax:
-            bs.size = "0GB"
-        else:
-            bs.size = str(params.tempFileSystemSize) + "GB"
-        bs.placement = "any"
+    # if params.tempFileSystemSize > 0 or params.tempFileSystemMax:
+    #     bs = node.Blockstore(name + "-bs", params.tempFileSystemMount)
+    #     if params.tempFileSystemMax:
+    #         bs.size = "0GB"
+    #     else:
+    #         bs.size = str(params.tempFileSystemSize) + "GB"
+    #     bs.placement = "any"
     
     # Install and start X11 VNC. Calling this informs the Portal that you want a VNC
     # option in the node context menu to create a browser VNC client.
