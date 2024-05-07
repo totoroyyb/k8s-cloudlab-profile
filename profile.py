@@ -126,32 +126,32 @@ for i in range(params.nodeCount):
     ### run setup scripts
     # install mount point && generate ssh keys
     node.addService(pg.Execute(shell="bash",
-        command="/local/repository/ssh.sh"))
+        command="/local/repository/ssh.sh > /tmp/ssh.log 2>&1"))
     node.addService(pg.Execute(shell="bash",
-        command="/local/repository/mount.sh"))
+        command="/local/repository/mount.sh > /tmp/mount.log 2>&1"))
 
     # dependencies installation
     node.addService(pg.Execute(shell="bash",
-        command="/local/repository/install-dependencies.sh"))
+        command="/local/repository/install-dependencies.sh > /tmp/dependencies.log 2>&1"))
 
     if i == 0:
         ''' Install the minikube for the main controller server (default to the first node)
         '''
         # docker installation
         node.addService(pg.Execute(shell="bash",
-            command="/local/repository/install-kubectl.sh"))
+            command="/local/repository/install-kubectl.sh > /tmp/kubectl.log 2>&1"))
 
         # docker installation
         node.addService(pg.Execute(shell="bash",
-            command="/local/repository/install-docker.sh"))
+            command="/local/repository/install-docker.sh > /tmp/docker.log 2>&1"))
 
         # minikube installation
         node.addService(pg.Execute(shell="bash",
-            command="/local/repository/install-minikube.sh"))
+            command="/local/repository/install-minikube.sh > /tmp/minikube.log 2>&1"))
 
     # increase number of open file descriptors
     node.addService(pg.Execute(shell="bash",
-        command="/local/repository/ulimit.sh"))
+        command="/local/repository/ulimit.sh > /tmp/ulimit.log 2>&1"))
     
     # Install and start X11 VNC. Calling this informs the Portal that you want a VNC
     # option in the node context menu to create a browser VNC client.
