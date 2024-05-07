@@ -1,4 +1,6 @@
 #!/bin/bash
+
+set +x
 # Create the user SSH directory, just in case.
 USERS="root `ls /users`"
 
@@ -18,3 +20,4 @@ for user in $USERS; do
     sudo su - $user -c "echo -e '\\nHost * \\n\\tStrictHostKeyChecking no\\n' >> ${ssh_dir}/config"
     sudo su - $user -c "chmod 644 ${ssh_dir}/config"
 done
+set -x

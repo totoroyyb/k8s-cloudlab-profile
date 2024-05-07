@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set +x
 for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
 
 # Add Docker's official GPG key:
@@ -29,3 +30,4 @@ for user in $USERS; do
 done
 
 sudo chmod 660 /var/run/docker.sock
+set -x
