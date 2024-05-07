@@ -11,8 +11,5 @@ minikube config set driver docker
 minikube delete
 mkdir -p /tmp/machine-setup-logs/
 
-newgrp docker << EOF
-minikube start >> /tmp/machine-setup-logs/minikube-start.log
-EOF
-
+# sudo -u $USER /local/repository/run-minikube.sh
 set +x
