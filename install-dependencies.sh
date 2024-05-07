@@ -1,5 +1,5 @@
 #!/bin/bash
-set +x
+set -x
 sudo apt-get update
 
 # Install gh
@@ -11,4 +11,4 @@ sudo apt-get update
 && sudo apt update \
 && sudo apt install gh -y
 
-set -x
+set +x
